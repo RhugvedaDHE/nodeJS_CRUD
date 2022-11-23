@@ -23,9 +23,6 @@ application.use(function(req, res, next) {
 // Setting up port
 const connUri = process.env.MONGO_LOCAL_CONN_URL;
 let PORT = process.env.PORT || 3000;
-// application.listen(3300, function() {
-//     console.log('listening on 3300')
-// })
 
 //=== 2 - SET UP DATABASE
 //Configure mongoose's promise to global promise
