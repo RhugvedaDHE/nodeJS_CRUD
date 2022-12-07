@@ -18,7 +18,7 @@ exports.register = (req, res) => {
         })
         .catch(err => res.status(500).json({success: false, message: err.message}));
 };
-
+ 
 // @route POST api/auth/login
 // @desc Login user and return JWT token
 // @access Public

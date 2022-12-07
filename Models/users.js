@@ -87,5 +87,4 @@ UserSchema.methods.generateJWT = function() {
     });
 };
 
-// mongoose.set('useFindAndModify', false);
 module.exports = mongoose.model('User', UserSchema);

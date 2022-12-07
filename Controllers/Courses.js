@@ -1,29 +1,31 @@
 const express = require("express");
 const mongoose = require("mongoose");
-
+const authenticate = require('../middlewares/authenticate');
 const router = express.Router();
 var Course = require('../Models/courses.js');
 const CourseModel = mongoose.model("Course");
 
 
 //Get all courses
-router.get("/list", function(req, res) {
-    CourseModel.find((error, docs)=>{
-        if(!error){
-            res.json({ 
-                status: 200,
-                data: docs,
-                message: "Courses fetched Successfully!" 
-            });
-        }
-        else{
-            res.json({ 
-                status: 400,
-                data: "" ,
-                message: error
-            });
-        }
-    })
+router.get("/list", authenticate, function(req, res) {
+    
+        CourseModel.find((error, docs)=>{
+            if(!error){
+                res.json({ 
+                    status: 200,
+                    data: docs,
+                    message: "Courses fetched Successfully!" 
+                });
+            }
+            else{
+                res.json({ 
+                    status: 400,
+                    data: "" ,
+                    message: error
+                });
+            }
+        })
+    
 })
 
 //Get a course by ID

@@ -5,6 +5,12 @@ const mongoose = require('mongoose');
 const cors = require('cors');
 const passport = require("passport");
 const bodyParser = require('body-parser');
+
+var p = require('permission')
+p.AUTHORIZED === 'authorized' // true
+p.NOT_AUTHENTICATED === 'notAuthenticated' // true
+p.NOT_AUTHORIZED === 'notAuthorized' // true
+
 const courseController = require("./Controllers/Courses");
 application.use(bodyParser.urlencoded({ extended: true })); // parse requests of content-type - application/x-www-form-urlencoded
 application.use(bodyParser.json()); // parse requests of content-type - application/json
@@ -21,12 +27,15 @@ application.use(function(req, res, next) {
 });
 
 // Setting up port
-const connUri = process.env.MONGO_LOCAL_CONN_URL;
+// const connUri = process.env.MONGO_LOCAL_CONN_URL;
 let PORT = process.env.PORT || 3000;
+
+//setting flash 
+// application.use(flash());
 
 //=== 2 - SET UP DATABASE
 //Configure mongoose's promise to global promise
-const URI = "mongodb://127.0.0.1:27017/internship";
+const URI = "mongodb://192.168.0.104:27017/internship";
     mongoose.connect(URI, {
     useNewUrlParser: true, 
     useUnifiedTopology: true 
@@ -51,7 +60,7 @@ require("./Middlewares/jwt")(passport);
 require('./Routes/index')(application);
 
 //=== 5 - START SERVER
-application.listen(PORT, () => console.log('hello Yougalli :'+PORT+'/'));
+application.listen(PORT, () => console.log('hello:'+PORT+'/'));
 application.get('/', function(req, res) {
     console.log("on route /");
 })
