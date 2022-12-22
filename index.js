@@ -11,7 +11,7 @@ p.AUTHORIZED === 'authorized' // true
 p.NOT_AUTHENTICATED === 'notAuthenticated' // true
 p.NOT_AUTHORIZED === 'notAuthorized' // true
 
-const courseController = require("./Controllers/Courses");
+const courseController = require("./Controllers/Courses.controller");
 application.use(bodyParser.urlencoded({ extended: true })); // parse requests of content-type - application/x-www-form-urlencoded
 application.use(bodyParser.json()); // parse requests of content-type - application/json
 
@@ -27,15 +27,11 @@ application.use(function(req, res, next) {
 });
 
 // Setting up port
-// const connUri = process.env.MONGO_LOCAL_CONN_URL;
 let PORT = process.env.PORT || 3000;
-
-//setting flash 
-// application.use(flash());
 
 //=== 2 - SET UP DATABASE
 //Configure mongoose's promise to global promise
-const URI = "mongodb://192.168.0.104:27017/internship";
+const URI = process.env.MONGO_LOCAL_CONN_URL;
     mongoose.connect(URI, {
     useNewUrlParser: true, 
     useUnifiedTopology: true 
@@ -45,8 +41,8 @@ const URI = "mongodb://192.168.0.104:27017/internship";
 });
 
 //Load all your models
-var User = require('./Models/users');
-var Course = require('./Models/courses');
+var User = require('./Models/users.model');
+var Course = require('./Models/courses.model');
 //Now, this call won't fail because User has been added as a schema.
 mongoose.model('User');
 mongoose.model('Course');
@@ -57,14 +53,18 @@ require("./Middlewares/jwt")(passport);
 
 //=== 4 - CONFIGURE ROUTES
 //Configure Route
-require('./Routes/index')(application);
+require('./Routes/index.routes')(application);
 
 //=== 5 - START SERVER
 application.listen(PORT, () => console.log('hello:'+PORT+'/'));
 application.get('/', function(req, res) {
     console.log("on route /");
+    res.send("Hey welcome to my first NodeJS programme!")
 })
-
+application.get('/welcome', function(req, res){
+    console.log("on route welcome");
+    res.send("!!WELCOME!!")
+})
 application.use("/Course", courseController);
 
 application.post('/q', function(req, res) {

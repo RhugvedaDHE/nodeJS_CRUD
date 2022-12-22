@@ -2,7 +2,7 @@ const express = require("express");
 const mongoose = require("mongoose");
 const authenticate = require('../middlewares/authenticate');
 const router = express.Router();
-var Course = require('../Models/courses.js');
+var Course = require('../Models/courses.model.js');
 const CourseModel = mongoose.model("Course");
 
 

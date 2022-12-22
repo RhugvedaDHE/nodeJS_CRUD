@@ -33,6 +33,21 @@ const UserSchema = new mongoose.Schema({
         required: 'Last Name is required',
         max: 100
     },
+    roles: {
+        type: Object,
+        required: 'Role is required',
+    },
+
+    dob: {
+        type: Date,
+        required: 'Date of Birth is required',
+    },
+
+    collegeName: {
+        type: String,
+        required: 'College name is required',
+        max: 50
+    },
 
     bio: {
         type: String,
@@ -70,6 +85,7 @@ UserSchema.methods.comparePassword = function(password) {
 };
 
 UserSchema.methods.generateJWT = function() {
+    console.log("creating jwt");
     const today = new Date();
     const expirationDate = new Date(today);
     expirationDate.setDate(today.getDate() + 60);
@@ -80,6 +96,7 @@ UserSchema.methods.generateJWT = function() {
         username: this.username,
         firstName: this.firstName,
         lastName: this.lastName,
+        roles: this.roles,
     };
 
     return jwt.sign(payload, process.env.JWT_SECRET, {

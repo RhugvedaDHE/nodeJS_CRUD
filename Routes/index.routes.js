@@ -1,5 +1,5 @@
-const auth = require('./auth');
-const user = require('./user');
+const auth = require('./auth.routes');
+const user = require('./user.routes');
 const authenticate = require('../middlewares/authenticate');
 
 module.exports = app => {

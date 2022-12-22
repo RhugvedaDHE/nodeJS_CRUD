@@ -1,4 +1,4 @@
-const User = require('../Models/users');
+const User = require('../Models/users.model');
 // const { sendEmail} = require('../utils/index');
 
 // @route GET admin/user

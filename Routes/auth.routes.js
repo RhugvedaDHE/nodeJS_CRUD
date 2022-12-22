@@ -1,6 +1,6 @@
 const express = require('express');
 const {check} = require('express-validator');
-const Auth = require('../controllers/auth');
+const Auth = require('../controllers/auth.controller');
 const validate = require('../middlewares/validate');
 
 const router = express.Router();
@@ -14,7 +14,9 @@ router.post('/register', [
     check('username').not().isEmpty().withMessage('You username is required'),
     check('password').not().isEmpty().isLength({min: 6}).withMessage('Must be at least 6 chars long'),
     check('firstName').not().isEmpty().withMessage('You first name is required'),
-    check('lastName').not().isEmpty().withMessage('You last name is required')
+    check('lastName').not().isEmpty().withMessage('You last name is required'),
+    // check('dob').not().isEmpty().withMessage('You date of birth is required').isISO8601().withMessage("Invalid date of birth"),
+    check('collegeName').not().isEmpty().withMessage('You college name is required'),
 ], validate, Auth.register);
 
 router.post("/login", [

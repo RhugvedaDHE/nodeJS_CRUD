@@ -1,4 +1,4 @@
-const User = require('../Models/users');
+const User = require('../Models/users.model');
 
 // @route POST api/auth/register
 // @desc Register user
@@ -13,7 +13,7 @@ exports.register = (req, res) => {
             // Create and save the user
             const newUser = new User(req.body);
             newUser.save()
-                .then(user => res.status(200).json({token: user.generateJWT(), user: user}))
+                .then(user => res.status(200).json({token: user.generateJWT(), message: "User registered successfully!"}))
                 .catch(err => res.status(500).json({message:err.message}));
         })
         .catch(err => res.status(500).json({success: false, message: err.message}));
@@ -25,13 +25,21 @@ exports.register = (req, res) => {
 exports.login = (req, res) => {
     User.findOne({email: req.body.email})
         .then(user => {
+            console.log('inside Ucntrler');
             if (!user) return res.status(401).json({msg: 'The email address ' + req.body.email + ' is not associated with any account. Double-check your email address and try again.'});
 
             //validate password
             if (!user.comparePassword(req.body.password)) return res.status(401).json({message: 'Invalid email or password'});
 
             // Login successful, write token, and send back user
-            res.status(200).json({token: user.generateJWT(), user: user});
+            res.status(200).json({
+                token: user.generateJWT(), 
+                userInfo: {
+                    user: user,
+                    roles: user.roles
+                }
+            });
         })
         .catch(err => res.status(500).json({message: err.message}));
 };
+
